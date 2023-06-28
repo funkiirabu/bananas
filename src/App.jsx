@@ -46,7 +46,7 @@ export default function App({ count = 100, depth = 80 }) {
       <Suspense fallback={null}>
         <Environment preset="sunset" />
         {Array.from({ length: count }, (_, i) => (
-          <Banana key={i} z={-(i / count) * depth} />
+          <Banana key={i} z={-(i / count) * depth - 20} />
         ))}
         <EffectComposer>
           <DepthOfField target={[0,0,depth / 2 ]} focalLength={0.5} bokehScale={10} height={700} />
