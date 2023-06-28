@@ -7,7 +7,7 @@ function Box() {
   const [clicked, setClicked] = useState(false)
 
   useFrame((state) => {
-    ref.current.position.z = clicked ? 1 : 0
+    ref.current.position.z = THREE.MathUtils.lerp(ref.current.position.z, clicked ? 1 : 0, 0.1)
 
   })
 
