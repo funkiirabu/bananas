@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { Suspense, useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useGLTF, Environment } from '@react-three/drei'
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-three/postprocessing'
 
 function Banana({ z }) {
   const ref = useRef()
@@ -38,14 +39,16 @@ function Banana({ z }) {
 
 export default function App({ count = 100}) {
   return (
-    <Canvas>
-      <ambientLight intensity={0.2} />
-      <spotLight position={[10, 10, 10]} angle={0.15} intensity={2} />
+    <Canvas gl={{ alpha: false }} camera={{ near: 0.01, far: 110 }}>
+      <color attach="background" args={['#ffbf40']} />
+      {/* <ambientLight intensity={0.5} /> */}
+      <spotLight position={[10, 10, 10]} angle={0.15} intensity={1} />
       <Suspense fallback={null}>
-        {/* <Banana scale={0.5} />
-        <Banana scale={0.5} position={[1, 0, -1]} /> */}
         <Environment preset="sunset" />
         {Array.from({ length: count }, (_, i) => (<Banana key={i} z={-i} />))}
+        <EffectComposer>
+          <DepthOfField target={[0,0,30]} focalLength={0.5} bokehScale={10} height={700} />
+        </EffectComposer>
       </Suspense>
     </Canvas>
   )
