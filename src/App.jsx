@@ -39,7 +39,7 @@ function Banana({ z }) {
 
 export default function App({ count = 100, depth = 80 }) {
   return (
-    <Canvas gl={{ alpha: false }} camera={{ near: 0.01, far: 110 }}>
+    <Canvas gl={{ alpha: false }} camera={{ near: 0.01, far: 110, fov: 30 }}>
       <color attach="background" args={['#ffbf40']} />
       {/* <ambientLight intensity={0.5} /> */}
       <spotLight position={[10, 10, 10]} angle={0.15} intensity={1} />
