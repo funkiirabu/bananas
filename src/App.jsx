@@ -1,6 +1,7 @@
 import * as THREE from 'three'
-import { useRef, useState } from 'react'
+import { Suspense, useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { useGLTF, Environment } from '@react-three/drei'
 
 function Box({ z }) {
   const ref = useRef()
@@ -27,10 +28,21 @@ function Box({ z }) {
   )
 }
 
+function Banana(props) {
+  const { scene } = useGLTF('/banana-v1.glb')
+  return <primitive object={scene} {...props} />
+}
+
 export default function App({ count = 100}) {
   return (
     <Canvas>
-      {Array.from({ length: count }, (_, i) => (<Box key={i} z={-i} />))}
+      <ambientLight intensity={0.2} />
+      <spotLight position={[10, 10, 10]} angle={0.15} intensity={2} />
+      <Suspense fallback={null}>
+        <Banana scale={0.5} />
+        <Environment preset="sunset" />
+      </Suspense>
+      {/*Array.from({ length: count }, (_, i) => (<Box key={i} z={-i} />))*/}
     </Canvas>
   )
 }
