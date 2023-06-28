@@ -16,7 +16,7 @@ function Banana({ z }) {
   })
 
   useFrame((state) => {
-    ref.current.position.set(data.x * width, (data.y += 0.5), z)
+    ref.current.position.set(data.x * width, (data.y += 0.01), z)
     if (data.y > height / 1.5) {
       data.y = -height / 1.5
     }
