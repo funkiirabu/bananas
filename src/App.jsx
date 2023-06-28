@@ -26,12 +26,10 @@ function Box() {
   )
 }
 
-export default function App() {
+export default function App({ count = 100}) {
   return (
     <Canvas>
-      <Box />
-      <Box />
-      <Box />
+      {Array.from({ length: count }, (_, i) => (<Box key={i} />))}
     </Canvas>
   )
 }
