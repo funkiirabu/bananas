@@ -1,10 +1,28 @@
-import { Canvas } from '@react-three/fiber'
+import * as THREE from 'three'
+import { useRef, useState } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
 
-export default function App() {
-  return <Canvas>
-    <mesh position={[0, 0, 0]} rotation={[0, 0, 0]}>
+function Box() {
+  const ref = useRef()
+  const [clicked, setClicked] = useState(false)
+
+  useFrame((state) => {
+    ref.current.position.z = clicked ? 1 : 0
+
+  })
+
+  return (
+    <mesh ref={ref} onClick={() => setClicked(!clicked)}>
       <boxGeometry />
       <meshBasicMaterial color="orange" />
-    </mesh>  
-  </Canvas>
+    </mesh>
+  )
+}
+
+export default function App() {
+  return (
+    <Canvas>
+      <Box />
+    </Canvas>
+  )
 }
