@@ -20,11 +20,9 @@ function Banana({ z }) {
   })
 
   useFrame((state) => {
-    ref.current.rotation.set((data.rX += 0.01), (data.rY += 0.004), (data.rZ += 0.0005))
-    ref.current.position.set(data.x * width, (data.y += 0.01), z)
-    if (data.y > height / 1.5) {
-      data.y = -height / 1.5
-    }
+    ref.current.rotation.set((data.rX += 0.001), (data.rY += 0.001), (data.rZ += 0.001))
+    ref.current.position.set(data.x * width, (data.y += 0.025), z)
+    if (data.y > height) data.y = -height
   })
 
   return (
@@ -37,17 +35,19 @@ function Banana({ z }) {
   )
 }
 
-export default function App({ count = 100}) {
+export default function App({ count = 100, depth = 80 }) {
   return (
-    <Canvas gl={{ alpha: false }} camera={{ near: 0.01, far: 110 }}>
+    <Canvas gl={{ alpha: false }} camera={{ near: 0.01, far: 110, fov: 30 }}>
       <color attach="background" args={['#ffbf40']} />
       {/* <ambientLight intensity={0.5} /> */}
       <spotLight position={[10, 10, 10]} angle={0.15} intensity={1} />
       <Suspense fallback={null}>
         <Environment preset="sunset" />
-        {Array.from({ length: count }, (_, i) => (<Banana key={i} z={-i} />))}
+        {Array.from({ length: count }, (_, i) => (
+          <Banana key={i} z={-(i / count) * depth - 20} />
+        ))}
         <EffectComposer>
-          <DepthOfField target={[0,0,30]} focalLength={0.5} bokehScale={10} height={700} />
+          <DepthOfField target={[0,0,depth / 2 ]} focalLength={0.5} bokehScale={10} height={700} />
         </EffectComposer>
       </Suspense>
     </Canvas>
